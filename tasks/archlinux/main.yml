@@ -26,7 +26,7 @@
   become_user: root
 
 - name: "Use makepkg to install the aur helper: 'yay'"
-  ext/aur:
+  aur:
     name: yay
     use: makepkg
     state: present
