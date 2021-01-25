@@ -19,6 +19,8 @@
   community.general.pacman:
     name: base-devel
     state: present
+    # NOTE: ArchWiki recommends the 'needed' flag:
+    # https://wiki.archlinux.org/index.php/Arch_User_Repository#Prerequisites
     extra_args: --needed
   become: true
   become_user: root
