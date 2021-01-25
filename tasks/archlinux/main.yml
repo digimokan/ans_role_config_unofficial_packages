@@ -19,7 +19,7 @@
   community.general.pacman:
     name: base-devel
     state: present
-    extra-args: --needed
+    extra_args: --needed
   become: true
   become_user: root
 
