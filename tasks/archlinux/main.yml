@@ -25,3 +25,11 @@
   become: true
   become_user: root
 
+- name: "Use makepkg to install the aur helper: 'yay'"
+  ext/aur:
+    name: yay
+    use: makepkg
+    state: present
+  become: true
+  become_user: aur_builder
+
