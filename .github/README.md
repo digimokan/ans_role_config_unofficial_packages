@@ -58,7 +58,7 @@ Configure and add unofficial packages.
 4. Use a role "utility task" (from the `inc` directory) to add a package:
 
    ```yaml
-   - name: "Add common ls long listing alias"
+   - name: "Install chromium-widevine package"
      ansible.builtin.include_role:
        name: ans_role_config_unofficial_packages
        tasks_from: inc/add_package.yml
