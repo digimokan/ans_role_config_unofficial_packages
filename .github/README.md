@@ -14,6 +14,7 @@ Configure and add unofficial packages.
     * [Use From Parent Role As Dependency](#use-from-parent-role-as-dependency)
 * [Role Options](#role-options)
 * [Role Dependencies](#role-dependencies)
+* [Module Dependencies](#module-dependencies)
 * [Contributing](#contributing)
 
 ## Purpose
@@ -90,6 +91,10 @@ Define these _required_ vars for the role:
 
 * [ans_role_add_user](https://github.com/digimokan/ans_role_add_user)
 * [ans_role_config_sudo](https://github.com/digimokan/ans_role_config_sudo)
+
+## Module Dependencies
+
+* [kewlfft/ansible-aur](https://github.com/kewlfft/ansible-aur)
 
 ## Contributing
 

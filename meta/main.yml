@@ -1,0 +1,22 @@
+galaxy_info:
+  author: digimokan
+  description: "Configure and add unofficial packages"
+  license: "MIT"
+  min_ansible_version: 2.5
+  platforms:
+    - name: Archlinux
+      versions:
+        - all
+  galaxy_tags:
+    - archlinux
+    - aur
+
+dependencies:
+  - src: https://github.com/digimokan/ans_role_add_user
+    tags:
+      - never
+  - src: https://github.com/digimokan/ans_role_config_sudo
+    tags:
+      - never
+  - src: kewlfft.aur
+
