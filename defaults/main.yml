@@ -1,0 +1,3 @@
+# name of user dedicated to aur building and installing
+aur_user_name: "aur_builder"
+

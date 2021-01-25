@@ -1,0 +1,4 @@
+- name: "Configure Arch Linux for unofficial package installation"
+  ansible.builtin.include_tasks: archlinux/main.yml
+  when: ansible_os_family == "Archlinux"
+

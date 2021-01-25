@@ -1,0 +1,25 @@
+- name: "Add dedicated aur-user '{{ aur_user_name }}'"
+  include_role:
+    name: ext/ans_role_add_user
+  vars:
+    user_name: "{{ aur_user_name }}"
+    is_system_user: true
+    set_initial_user_password: false
+
+- name: "Configure sudo settings for aur-user '{{ aur_user_name }}'"
+  include_role:
+    name: ext/ans_role_config_sudo
+  vars:
+    set_auth_for_user: "{{ aur_user_name }}"
+    auth_cmd_list:
+      - "/usr/bin/pacman"
+    req_sudo_passwd: false
+
+- name: "Install base-devel package, for aur package-building"
+  community.general.pacman:
+    name: base-devel
+    state: present
+    extra-args: --needed
+  become: true
+  become_user: root
+
