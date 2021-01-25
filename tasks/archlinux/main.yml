@@ -13,7 +13,7 @@
     set_auth_for_user: "{{ aur_user_name }}"
     auth_cmd_list:
       - "/usr/bin/pacman"
-    req_sudo_passwd: true
+    req_sudo_password: false
 
 - name: "Install base-devel package, for aur package-building"
   community.general.pacman:
