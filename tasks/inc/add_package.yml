@@ -1,0 +1,4 @@
+- name: "Install '{{ package_name }}' package for Arch Linux"
+  ansible.builtin.include_tasks: inc/archlinux/add_package.yml
+  when: ansible_os_family == "Archlinux"
+

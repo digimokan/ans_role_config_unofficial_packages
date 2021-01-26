@@ -1,5 +1,5 @@
 - name: "Add dedicated aur-user '{{ aur_user_name }}'"
-  include_role:
+  ansible.builtin.include_role:
     name: ext/ans_role_add_user
   vars:
     user_name: "{{ aur_user_name }}"
@@ -7,7 +7,7 @@
     set_initial_user_password: false
 
 - name: "Configure sudo settings for aur-user '{{ aur_user_name }}'"
-  include_role:
+  ansible.builtin.include_role:
     name: ext/ans_role_config_sudo
   vars:
     set_auth_for_user: "{{ aur_user_name }}"
@@ -25,9 +25,9 @@
   become: true
   become_user: root
 
-- name: "Use makepkg to install the aur helper: 'yay'"
+- name: "Use makepkg to install the aur helper: '{{ aur_helper }}'"
   aur:
-    name: yay
+    name: "{{ aur_helper }}"
     use: makepkg
     state: present
   become: true
