@@ -88,7 +88,7 @@ See the role `defaults` file, for overridable vars:
 
 Define these _required_ vars for the role:
 
-  * `package_name`: name of unofficial package to install
+  * `package_name`: name of unofficial package to install (string, or list)
   * `repo_name`: the repo that contains the packge (not needed for Arch Linux)
 
 ## Role Dependencies
