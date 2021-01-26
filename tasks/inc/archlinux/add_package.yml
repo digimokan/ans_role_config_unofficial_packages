@@ -1,4 +1,4 @@
-- name: "Install '{{ package_name }}' using {{ aur_helper }} aur-helper"
+- name: "Install '{{ package_name }}' package using {{ aur_helper }} aur-helper"
   aur:
     name: "{{ package_name }}"
     use: "{{ aur_helper }}"
