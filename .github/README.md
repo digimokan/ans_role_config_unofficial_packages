@@ -82,6 +82,10 @@ Configure and add unofficial packages.
 
 ## Role Options
 
+See the role `defaults` file, for overridable vars:
+
+  * [defaults/main.yml](../defaults/main.yml)
+
 Define these _required_ vars for the role:
 
   * `package_name`: name of unofficial package to install
