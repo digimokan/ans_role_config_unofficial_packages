@@ -15,7 +15,7 @@
       - "/usr/bin/pacman"
     req_sudo_password: false
 
-- name: "Install base-devel package, for aur package-building"
+- name: "Install package-group 'base-devel', for aur package-building"
   community.general.pacman:
     name: base-devel
     state: present
