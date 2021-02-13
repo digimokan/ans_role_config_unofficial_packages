@@ -1,0 +1,176 @@
+#!/bin/sh
+
+################################################################################
+# purpose:   upgrade system aur packages
+# args/opts: see usage (run with -h option)
+# meta:      script installed by ansible ans_role_config_unofficial_packages
+################################################################################
+
+# GLOBAL VARS:
+
+# User Selection Options
+dryrun_aur_system_upgrade='false'
+list_system_aur_packages='false'
+show_outdated_aur_packages='false'
+aur_system_upgrade='false'
+
+# Paths And Commands
+dryrun_upgrade_cmd='yay -Qu --timeupdate'
+list_packages_cmd='pacman -Qqem'
+outdated_packages_cmd='yay -Ps'
+upgrade_cmd='yay -Sua --timeupdate'
+
+print_usage() {
+  echo 'USAGE:'
+  echo "  $(basename "${0}")  -h"
+  echo "  $(basename "${0}")  -n | -l | -o"
+  echo "  $(basename "${0}")  -s"
+  echo 'OPTIONS:'
+  echo '  -h, --help'
+  echo '      print this help message'
+  echo '  -n --dryrun-aur-system-upgrade'
+  echo '      list aur packages that would be upgraded, then exit'
+  echo '  -l --list-system-aur-packages'
+  echo '      list installed aur pkgs (and pkgs not in official repo)'
+  echo '  -o --show-outdated-aur-packages'
+  echo '      show installed pkgs flagged out-of-date, or not in aur'
+  echo '  -s --aur-system-upgrade'
+  echo '      upgrade all aur packages installed on the system'
+  echo 'EXIT CODES:'
+  echo '    0  ok'
+  echo '    1  usage, arguments, or options error'
+  echo '    5  aur package-query error'
+  echo '   10  aur package-upgrade error'
+  echo '  255  unknown error'
+  exit "${1}"
+}
+
+get_cmd_opts_and_args() {
+  while getopts ':hnlos-:' option; do
+    case "${option}" in
+      h)  handle_help ;;
+      n)  handle_dryrun_aur_system_upgrade ;;
+      l)  handle_list_system_aur_packages ;;
+      o)  handle_show_outdated_aur_packages ;;
+      s)  handle_aur_system_upgrade ;;
+      -)  case ${OPTARG} in
+            help)                         handle_help ;;
+            help=*)                       handle_illegal_option_arg "${OPTARG}" ;;
+            dryrun-aur-system-upgrade)    handle_dryrun_aur_system_upgrade ;;
+            dryrun-aur-system-upgrade=*)  handle_illegal_option_arg "${OPTARG}" ;;
+            list-system-aur-packages)     handle_list_system_aur_packages ;;
+            list-system-aur-packages=*)   handle_illegal_option_arg "${OPTARG}" ;;
+            show-outdated-aur-packages)   handle_show_outdated_aur_packages ;;
+            show-outdated-aur-packages=*) handle_illegal_option_arg "${OPTARG}" ;;
+            aur-system-upgrade)           handle_aur_system_upgrade ;;
+            aur-system-upgrade=*)         handle_illegal_option_arg "${OPTARG}" ;;
+            '')                           break ;; # non-option arg starting with '-'
+            *)                            handle_unknown_option "${OPTARG}" ;;
+          esac ;;
+      \?) handle_unknown_option "${OPTARG}" ;;
+    esac
+  done
+}
+
+handle_help() {
+  print_usage 0
+}
+
+handle_dryrun_aur_system_upgrade() {
+  dryrun_aur_system_upgrade='true'
+}
+
+handle_list_system_aur_packages() {
+  list_system_aur_packages='true'
+}
+
+handle_show_outdated_aur_packages() {
+  show_outdated_aur_packages='true'
+}
+
+handle_aur_system_upgrade() {
+  aur_system_upgrade='true'
+}
+
+handle_unknown_option() {
+  err_msg="unknown option \"${1}\""
+  quit_err_msg_with_help "${err_msg}" 1
+}
+
+handle_illegal_option_arg() {
+  err_msg="illegal argument in \"${1}\""
+  quit_err_msg_with_help "${err_msg}" 1
+}
+
+print_err_msg() {
+  echo 'ERROR:'
+  printf "$(basename "${0}"): %s\\n\\n" "${1}"
+}
+
+quit_err_msg() {
+  print_err_msg "${1}"
+  exit "${2}"
+}
+
+quit_err_msg_with_help() {
+  print_err_msg "${1}"
+  print_usage "${2}"
+}
+
+do_dryrun_aur_system_upgrade() {
+  eval "$dryrun_upgrade_cmd"
+  exit_code="${?}"
+  if [ "${exit_code}" = 0 ]; then
+    exit 0
+  else
+    quit_err_msg "system aur-upgrade dryrun failure" 10
+  fi
+}
+
+do_list_system_aur_packages() {
+  eval "$list_packages_cmd"
+  exit_code="${?}"
+  if [ "${exit_code}" = 0 ]; then
+    exit 0
+  else
+    quit_err_msg "system package-query failure" 5
+  fi
+}
+
+do_show_outdated_aur_packages() {
+  eval "$outdated_packages_cmd"
+  exit_code="${?}"
+  if [ "${exit_code}" = 0 ]; then
+    exit 0
+  else
+    quit_err_msg "aur package-query failure" 5
+  fi
+}
+
+do_aur_system_upgrade() {
+  eval "$upgrade_cmd"
+  exit_code="${?}"
+  if [ "${exit_code}" != 0 ]; then
+    quit_err_msg "system aur-upgrade failure" 10
+  fi
+}
+
+main() {
+  get_cmd_opts_and_args "$@"
+  if [ "${dryrun_aur_system_upgrade}" = 'true' ]; then
+    do_dryrun_aur_system_upgrade "$@"
+  fi
+  if [ "${list_system_aur_packages}" = 'true' ]; then
+    do_list_system_aur_packages "$@"
+  fi
+  if [ "${show_outdated_aur_packages}" = 'true' ]; then
+    do_show_outdated_aur_packages "$@"
+  fi
+  if [ "${aur_system_upgrade}" = 'true' ]; then
+    do_aur_system_upgrade "$@"
+  fi
+  exit 0
+}
+
+main "$@"
+

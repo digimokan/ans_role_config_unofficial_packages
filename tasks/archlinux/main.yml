@@ -33,3 +33,16 @@
   become: true
   become_user: aur_builder
 
+- name: "Create '/usr/local/bin/{{ script_name }}.sh' utility script"
+  ansible.builtin.template:
+    dest: "/usr/local/bin/{{ script_name }}.sh"
+    src: "{{ script_name }}.j2"
+    owner: 'root'
+    group: 'root'
+    mode: '755'
+    force: yes
+  vars:
+    script_name: 'do_aur_sysupgrade'
+  become: true
+  become_user: root
+
