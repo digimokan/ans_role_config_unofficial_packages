@@ -118,6 +118,7 @@ quit_err_msg_with_help() {
 }
 
 do_dryrun_aur_system_upgrade() {
+  echo "Executing aur-upgrade dryrun with '${dryrun_upgrade_cmd}'..."
   eval "$dryrun_upgrade_cmd"
   exit_code="${?}"
   if [ "${exit_code}" = 0 ]; then
@@ -128,6 +129,7 @@ do_dryrun_aur_system_upgrade() {
 }
 
 do_list_system_aur_packages() {
+  echo "Listing installed aur packges with '${list_packages_cmd}'..."
   eval "$list_packages_cmd"
   exit_code="${?}"
   if [ "${exit_code}" = 0 ]; then
@@ -138,6 +140,7 @@ do_list_system_aur_packages() {
 }
 
 do_show_outdated_aur_packages() {
+  echo "Finding outdated aur packges with '${outdated_packages_cmd}'..."
   eval "$outdated_packages_cmd"
   exit_code="${?}"
   if [ "${exit_code}" = 0 ]; then
@@ -148,6 +151,7 @@ do_show_outdated_aur_packages() {
 }
 
 do_aur_system_upgrade() {
+  echo "Executing aur-upgrade with '${upgrade_cmd}'..."
   eval "$upgrade_cmd"
   exit_code="${?}"
   if [ "${exit_code}" != 0 ]; then
