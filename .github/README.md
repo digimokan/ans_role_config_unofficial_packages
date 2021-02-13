@@ -23,6 +23,7 @@ Configure and add unofficial packages.
 * Install an unofficial package to the OS.
 * For Arch Linux, use the
   [Arch User Repository](https://wiki.archlinux.org/index.php/Arch_User_Repository).
+* Add system aur [utility script](../templates/do_aur_sysupgrade.j2).
 
 ## Supported Operating Systems
 
