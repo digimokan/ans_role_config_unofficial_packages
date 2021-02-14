@@ -10,7 +10,7 @@
 
 # User Selection Options
 dryrun_aur_system_upgrade='false'
-list_system_aur_packages='false'
+list_foreign_packages='false'
 show_outdated_aur_packages='false'
 aur_system_upgrade='false'
 
@@ -23,15 +23,15 @@ upgrade_cmd='yay -Sua --timeupdate'
 print_usage() {
   echo 'USAGE:'
   echo "  $(basename "${0}")  -h"
-  echo "  $(basename "${0}")  -n | -l | -o"
+  echo "  $(basename "${0}")  -n | -f | -o"
   echo "  $(basename "${0}")  -s"
   echo 'OPTIONS:'
   echo '  -h, --help'
   echo '      print this help message'
   echo '  -n, --dryrun-aur-system-upgrade'
   echo '      list aur packages that would be upgraded, then exit'
-  echo '  -l, --list-system-aur-packages'
-  echo '      list installed aur pkgs (and pkgs not in official repo)'
+  echo '  -f, --list-foreign-packages'
+  echo '      list all foreign pkgs (aur pkgs and pkgs not in official repos)'
   echo '  -o, --show-outdated-aur-packages'
   echo '      show installed pkgs flagged out-of-date, or not in aur'
   echo '  -s, --aur-system-upgrade'
@@ -46,11 +46,11 @@ print_usage() {
 }
 
 get_cmd_opts_and_args() {
-  while getopts ':hnlos-:' option; do
+  while getopts ':hnfos-:' option; do
     case "${option}" in
       h)  handle_help ;;
       n)  handle_dryrun_aur_system_upgrade ;;
-      l)  handle_list_system_aur_packages ;;
+      f)  handle_list_foreign_packages ;;
       o)  handle_show_outdated_aur_packages ;;
       s)  handle_aur_system_upgrade ;;
       -)  case ${OPTARG} in
@@ -58,8 +58,8 @@ get_cmd_opts_and_args() {
             help=*)                       handle_illegal_option_arg "${OPTARG}" ;;
             dryrun-aur-system-upgrade)    handle_dryrun_aur_system_upgrade ;;
             dryrun-aur-system-upgrade=*)  handle_illegal_option_arg "${OPTARG}" ;;
-            list-system-aur-packages)     handle_list_system_aur_packages ;;
-            list-system-aur-packages=*)   handle_illegal_option_arg "${OPTARG}" ;;
+            list-foreign-packages)        handle_list_foreign_packages ;;
+            list-foreign-packages=*)      handle_illegal_option_arg "${OPTARG}" ;;
             show-outdated-aur-packages)   handle_show_outdated_aur_packages ;;
             show-outdated-aur-packages=*) handle_illegal_option_arg "${OPTARG}" ;;
             aur-system-upgrade)           handle_aur_system_upgrade ;;
@@ -80,8 +80,8 @@ handle_dryrun_aur_system_upgrade() {
   dryrun_aur_system_upgrade='true'
 }
 
-handle_list_system_aur_packages() {
-  list_system_aur_packages='true'
+handle_list_foreign_packages() {
+  list_foreign_packages='true'
 }
 
 handle_show_outdated_aur_packages() {
@@ -128,7 +128,7 @@ do_dryrun_aur_system_upgrade() {
   fi
 }
 
-do_list_system_aur_packages() {
+do_list_foreign_packages() {
   echo "Listing installed aur packges with '${list_packages_cmd}'..."
   eval "$list_packages_cmd"
   exit_code="${?}"
@@ -164,8 +164,8 @@ main() {
   if [ "${dryrun_aur_system_upgrade}" = 'true' ]; then
     do_dryrun_aur_system_upgrade "$@"
   fi
-  if [ "${list_system_aur_packages}" = 'true' ]; then
-    do_list_system_aur_packages "$@"
+  if [ "${list_foreign_packages}" = 'true' ]; then
+    do_list_foreign_packages "$@"
   fi
   if [ "${show_outdated_aur_packages}" = 'true' ]; then
     do_show_outdated_aur_packages "$@"
