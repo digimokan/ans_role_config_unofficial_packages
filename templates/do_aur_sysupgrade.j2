@@ -46,7 +46,7 @@ print_usage() {
   exit "${1}"
 }
 
-get_cmd_opts_and_args() {
+get_cmd_opts() {
   while getopts ':hnfos-:' option; do
     case "${option}" in
       h)  handle_help ;;
@@ -161,7 +161,7 @@ do_aur_system_upgrade() {
 }
 
 main() {
-  get_cmd_opts_and_args "$@"
+  get_cmd_opts "$@"
   if [ "${dryrun_aur_system_upgrade}" = 'true' ]; then
     do_dryrun_aur_system_upgrade "$@"
   fi
