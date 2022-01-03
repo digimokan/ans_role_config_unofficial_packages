@@ -11,12 +11,3 @@ galaxy_info:
     - archlinux
     - aur
 
-dependencies:
-  - src: https://github.com/digimokan/ans_role_add_user
-    tags:
-      - never
-  - src: https://github.com/digimokan/ans_role_config_sudo
-    tags:
-      - never
-  - src: kewlfft.aur
-
