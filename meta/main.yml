@@ -12,5 +12,5 @@ galaxy_info:
     - aur
 
 dependencies:
-  - kewlfft.aur
+  - name: kewlfft.aur
 
