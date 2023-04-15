@@ -94,7 +94,6 @@ Define these _required_ vars for the role:
 
 ## Role Dependencies
 
-* [ans_role_add_user](https://github.com/digimokan/ans_role_add_user)
 * [ans_role_config_sudo](https://github.com/digimokan/ans_role_config_sudo)
 
 ## Module Dependencies
